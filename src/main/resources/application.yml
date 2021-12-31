@@ -1,0 +1,35 @@
+server:
+  port: 8189
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: TRACE
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+
+spring:
+  application:
+    name: Spring-Authorization-Server
+  datasource:
+    url: jdbc:mariadb://localhost:3306/identity
+    username: username
+    password: password
+    initialization-mode: always
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        jdbc:
+          batch_size: 100
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+      javax:
+        persistence:
+          sharedCache:
+            mode: ALL
