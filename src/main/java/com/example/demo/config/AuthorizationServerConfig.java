@@ -40,10 +40,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.UUID;
 
-/**
- * @author Joe Grandja
- * @since 0.0.1
- */
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
 
@@ -54,7 +50,6 @@ public class AuthorizationServerConfig {
         return http.formLogin(Customizer.withDefaults()).build();
     }
 
-    // @formatter:off
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -64,31 +59,13 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-//				.redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
-                .redirectUri("https://www.thedoo.io/app")
+				.redirectUri("http://127.0.0.1:8080/auth")
                 .scope(OidcScopes.OPENID)
-//				.scope("read")
-//				.scope("write")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
 
-        // Save registered client in db as if in-memory
-//		JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-//		registeredClientRepository.save(registeredClient);
-
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
-    // @formatter:on
-
-//	@Bean
-//	public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
-//		return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
-//	}
-//
-//	@Bean
-//	public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
-//		return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
-//	}
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
@@ -101,19 +78,5 @@ public class AuthorizationServerConfig {
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder().issuer("http://localhost:8189").build();
     }
-
-//	@Bean
-//	public EmbeddedDatabase embeddedDatabase() {
-//		// @formatter:off
-//		return new EmbeddedDatabaseBuilder()
-//				.generateUniqueName(true)
-//				.setType(EmbeddedDatabaseType.H2)
-//				.setScriptEncoding("UTF-8")
-//				.addScript("org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql")
-//				.addScript("org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql")
-//				.addScript("org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql")
-//				.build();
-//		// @formatter:on
-//	}
 
 }

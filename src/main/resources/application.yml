@@ -3,18 +3,18 @@ server:
 
 logging:
   level:
-    root: DEBUG
-    org.springframework.web: TRACE
-    org.springframework.security: TRACE
-    org.springframework.security.oauth2: TRACE
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
 
 spring:
   application:
     name: Spring-Authorization-Server
   datasource:
-    url: jdbc:mariadb://localhost:3306/identity
-    username: username
-    password: password
+    url: jdbc:mariadb://localhost:3306/spring-oauth-server
+    username: root
+    password: smart
     initialization-mode: always
   jpa:
     show-sql: true
